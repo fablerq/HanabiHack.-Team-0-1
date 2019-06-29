@@ -1,0 +1,1 @@
+Scala backend for "0-1" team's project on HanabiHack Moscow June 2019
