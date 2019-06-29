@@ -7,7 +7,7 @@
 		revision="0.1"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, universal, universal-docs, universal-src, windows, docker, linux, rpm, debian, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20190629133131"/>
+		date="20190629221344"/>
 	<dependencies>
 		<module organisation="org.mongodb.scala" name="mongo-scala-driver_2.12">
 			<revision name="2.1.0" status="release" pubdate="20170524132631" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://mongodb.github.io/mongo-scala-driver" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="26">

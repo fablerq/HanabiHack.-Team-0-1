@@ -4,7 +4,7 @@
 		module="hanabihack$sources"
 		revision="0.1"
 		status="integration"
-		publication="20190629161455"
+		publication="20190629221354"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
