@@ -58,9 +58,9 @@ class UserServiceImpl(dao: UserDao) extends UserService {
 
   def create(link: String): Future[Either[ServiceResponse, User]] = {
     dao.getSingleByLink(link).flatMap {
-      case x if x != null =>
+      case x if x == null =>
         val user: User = User.apply(
-          new ObjectId(), "Аноним", None, None, None)
+          new ObjectId(), "Аноним", Some(link), None, None)
         dao.create(user).flatMap { x =>
           dao.getSingleById(user._id).map { x => Right(x) }
         }

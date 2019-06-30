@@ -48,7 +48,8 @@ class HttpService(database: MongoDatabase) {
     new HandleRoutes(
       new HandleServiceImpl(
         userService,
-        vkService
+        vkService,
+        githubService
       )
     )
 

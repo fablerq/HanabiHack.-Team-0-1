@@ -76,14 +76,17 @@ class VkServiceImpl(vkStatDao: VkStatDao,
       userService.getByIdDirectly(objectId).flatMap {
         case Some(x) =>
           vkStatDao.getSingleByUser(link).flatMap {
-            case x if x != null =>
+            case x if x == null =>
+              println("hey")
+              println(interests)
+              println(rates)
               val stat: UserVKStat = UserVKStat.apply(
                 new ObjectId(), link, interests, rates)
               vkStatDao.create(stat).flatMap { x =>
                 vkStatDao.getSingleById(stat._id).map { x => Right(x) }
               }
             case x => Future.successful(
-              Left(ServiceResponse(false, Some("Cant create stat"))))
+              Left(ServiceResponse(false, Some("Stat has been already exists"))))
           }
         case None =>
           Future.successful(

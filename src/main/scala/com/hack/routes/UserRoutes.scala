@@ -30,7 +30,7 @@ class UserRoutes(userService: UserService) {
             }
         }
     } ~
-    path("updateInfo") {
+    path("updateinfo") {
       parameters("id".as[String], "github_link".as[String]) {
         (id, github_link) =>
           post {
