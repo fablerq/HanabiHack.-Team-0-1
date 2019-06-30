@@ -91,20 +91,22 @@ class HandleServiceImpl(userService: UserService,
   }
 
   def fetchRepo(link: String): GithubFileInfo = {
-    val urls: List[String] = Http()
+    val urls: List[String] =
+      Http()
       .singleRequest(HttpRequest(
         HttpMethods.GET,
         Uri(link)
       ))
       .flatMap(Unmarshal(_).to[Option[GithubAPIMain]])
-      .map { x => x.get.tree }
-      .filter(_.`type` == "blob")
-      .map(y => y.url)
+      .map(x => x.get.tree)
+      .collect { x =>
+        x if x.`type` == "blob" => x.url
       }
+
     println(urls)
     val kek = new GithubFileInfo("wrg", "rwrfwef")
     kek
-    }
+  }
 
   def getVkData(link: String): Future[(List[String], List[String])] = {
     val data = VkRequestFormat.apply(link)
@@ -115,12 +117,14 @@ class HandleServiceImpl(userService: UserService,
         entity = HttpEntity(ContentTypes.`application/json`, write(data))
       ))
       .flatMap(Unmarshal(_).to[Option[VkResponseFormat]])
-      .map { x =>
-        x match {
-          case Some(x) => (x.interests, x.rates)
-          case None => (List("sample"),List("sample"))
-        }
-      }
+      .map(x => println(x))
+      Future.successful(List[("shit", "shit")])
+//      .map { x =>
+//        x match {
+//          case Some(x) => (x.interests, x.rates)
+//          case None => (List("sample"),List("sample"))
+//        }
+      //}
   }
 
   def handleVK(id: String): Future[Either[ServiceResponse, UserVKStat]] = {
