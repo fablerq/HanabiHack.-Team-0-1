@@ -1,6 +1,6 @@
 package com.hack.configs
 
-import com.hack.models.{MessageModel, ServiceResponse}
+import com.hack.models._
 import com.mongodb.MongoCredential._
 import com.mongodb.{MongoCredential, ServerAddress}
 import com.mongodb.connection.{ClusterSettings, ConnectionPoolSettings}
@@ -51,9 +51,13 @@ object Mongo {
     MongoClient(settings)
 
   lazy val customCodecs = fromProviders(
-    classOf[ApiKeyModel],
-    classOf[MessageModel],
-    classOf[ServiceResponse]
+    classOf[User],
+    classOf[UserVKStat],
+    classOf[ServiceResponse],
+    classOf[VkResponseFormat],
+    classOf[VkRequestFormat],
+    classOf[UserGithubStat],
+    classOf[UserFacebookStat]
   )
 
   lazy val codecRegistry = fromRegistries(customCodecs, DEFAULT_CODEC_REGISTRY)
@@ -62,10 +66,12 @@ object Mongo {
       .getDatabase(config.getString("mongo.database"))
       .withCodecRegistry(codecRegistry)
 
-  val keysCollection: MongoCollection[ApiKeyModel] =
-    database.getCollection("keys")
+  val usersCollection: MongoCollection[User] =
+    database.getCollection("users")
 
-  val messagesCollection: MongoCollection[MessageModel] =
-    database.getCollection("messages")
+  val githubstatsCollection: MongoCollection[UserGithubStat] =
+    database.getCollection("githubstats")
 
+  val vkstatsCollection: MongoCollection[UserVKStat] =
+    database.getCollection("vkstats")
 }

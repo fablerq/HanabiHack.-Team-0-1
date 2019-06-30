@@ -1,43 +1,68 @@
 package com.hack.services
 
 import akka.http.scaladsl.server.Directives._
-import com.hack.daos.{AuthDao, AuthDaoImpl, MessageDao, MessageDaoImpl}
-import com.hack.routes.{AuthRoutes, HandleRoutes}
+import com.hack.daos._
+import com.hack.routes._
 import org.mongodb.scala.MongoDatabase
-
 
 class HttpService(database: MongoDatabase) {
 
-  val authDao = new AuthDaoImpl(database.getCollection("keys"))
+  //user
+  val userDao =
+    new UserDaoImpl(database.getCollection("users"))
 
-  val authService =
-    new AuthServiceImpl(authDao)
+  val userService =
+    new UserServiceImpl(userDao)
 
-  val authRoutes =
-    new AuthRoutes(authService)
+  val userRoutes =
+    new UserRoutes(userService)
 
-  val messageDao = new MessageDaoImpl(database.getCollection("messages"))
+  //vkStat
+  val vkStatDao =
+    new VkStatDaoImpl(database.getCollection("vkstats"))
 
-  val messageService =
-    new MessageServiceImpl(
-      messageDao,
-      authService
+  val vkService =
+    new VkServiceImpl(
+      vkStatDao,
+      userService
     )
 
-  val messageRoutes =
-    new MessageRoutes(messageService)
+  val vkStatRoutes =
+    new VkStatRoutes(vkService)
 
+  //githubStat
+  val githubStatDao =
+    new GithubStatDaoImpl(database.getCollection("githubstats"))
+
+  val githubService =
+    new GithubServiceImpl(
+      githubStatDao,
+      userService
+    )
+
+  val githubStatRoutes =
+    new GithubStatRoutes(githubService)
+
+  //others
   val handleRoutes =
     new HandleRoutes(
       new HandleServiceImpl(
-        authService,
-        messageService
+        userService,
+        vkService
+      )
+    )
+
+  val authRoutes =
+    new AuthRoutes(
+      new AuthServiceImpl(
+        userDao
       )
     )
 
   val routes =
     pathPrefix("api") {
-      handleRoutes.route ~ messageRoutes.route ~ authRoutes.route
+      handleRoutes.route ~ userRoutes.route ~ authRoutes.route ~
+        githubStatRoutes.route ~ vkStatRoutes.route
     }
 
 }

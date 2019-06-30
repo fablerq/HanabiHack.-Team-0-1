@@ -1,6 +1,6 @@
 package com.hack.services
 
-import com.hack.daos.{AuthDao, UserDao}
+import com.hack.daos.UserDao
 import com.hack.models.{ServiceResponse, User}
 
 import scala.concurrent.ExecutionContext.Implicits.global

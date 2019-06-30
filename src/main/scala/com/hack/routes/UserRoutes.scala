@@ -7,7 +7,7 @@ import com.hack.configs.Json4sSupport._
 
 class UserRoutes(userService: UserService) {
   def route = cors() {
-    path("user") {
+    path("users") {
       get {
         complete(userService.getAll())
       } ~

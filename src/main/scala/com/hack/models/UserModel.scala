@@ -10,9 +10,3 @@ case class User(
                   facebook_link: Option[String]
                 )
 
-case class UserParams(
-                   name: Option[String] = None,
-                   github_link: Option[String] = None,
-                   vk_link: Option[String] = None,
-                   facebook_link: Option[String] = None
-                      )

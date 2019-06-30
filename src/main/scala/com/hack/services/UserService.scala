@@ -91,7 +91,7 @@ class UserServiceImpl(dao: UserDao) extends UserService {
       val objectId = new ObjectId(id)
       getByIdDirectly(objectId).flatMap {
         case Some(x) =>
-          dao.updateGithub(objectId, link).map { x=>
+          dao.updateVK(objectId, link).map { x=>
             ServiceResponse(true, Some("VK successfully added"))
           }
         case None =>
@@ -108,7 +108,7 @@ class UserServiceImpl(dao: UserDao) extends UserService {
       val objectId = new ObjectId(id)
       getByIdDirectly(objectId).flatMap {
         case Some(x) =>
-          dao.updateGithub(objectId, link).map { x=>
+          dao.updateFacebook(objectId, link).map { x=>
             ServiceResponse(true, Some("Facebook successfully added"))
           }
         case None =>
